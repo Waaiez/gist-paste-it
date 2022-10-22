@@ -6,7 +6,11 @@ module.exports = {
 		'./node_modules/@brainandbones/skeleton/**/*.{html,js,svelte,ts}'
 	],
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				mono: ['Fira Mono', 'monospace']
+			}
+		}
 	},
 	plugins: [
 		require('tailwind-scrollbar'),

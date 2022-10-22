@@ -15,12 +15,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			throw error(404, 'Gist not found');
 		}
 
-		const numOfLines = gist.content.split('\n').length;
-
-		return {
-			gist,
-			numOfLines
-		};
+		return gist;
 	} catch (e) {
 		if (typeof e === 'string') {
 			throw error(500, e.toUpperCase());

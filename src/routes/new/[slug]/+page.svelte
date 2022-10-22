@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { uneval } from 'devalue';
+
+	import type { PageData } from './$types';
+
 	import { onMount } from 'svelte';
 	// @ts-ignore
 	import Icon from 'svelte-icons-pack/Icon.svelte';
 	// @ts-ignore
 	import FaSolidPlus from 'svelte-icons-pack/fa/FaSolidPlus';
 	import FaSave from 'svelte-icons-pack/fa/FaSave';
+
+	export let data: PageData;
 
 	let textarea: HTMLTextAreaElement;
 	let title: HTMLInputElement;
@@ -30,8 +36,13 @@
 
 	onMount(() => {
 		textarea.focus();
-		textarea.value = '';
-		title.value = '';
+
+		// https://github.com/rich-harris/devalue#xss-mitigation
+		const cleanedValue = uneval(data.gist.content);
+		const cleanGistContent = (0, eval)('(' + cleanedValue + ')');
+
+		textarea.value = cleanGistContent;
+		title.value = data.gist.title;
 
 		isAbleToSubmit = textarea.value.length > 0 && title.value.length > 0;
 
