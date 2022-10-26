@@ -1,6 +1,7 @@
-import prisma from '$lib/db';
 import { nanoid } from 'nanoid';
-import { error, invalid, redirect, type Actions } from '@sveltejs/kit';
+import { error, invalid, redirect } from '@sveltejs/kit';
+import { createGist } from '$lib/gistActions';
+import type { Actions } from './$types';
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -10,30 +11,26 @@ export const actions: Actions = {
 		const content = data.get('content') as string;
 		const slug = nanoid(6);
 
-		if (!title) {
-			return invalid(400, { title, missing: true });
-		}
+		const results = await createGist(title, content, slug);
 
-		if (!content) {
-			return invalid(400, { content, missing: true });
-		}
-
-		try {
-			await prisma.gist.create({
-				data: {
-					title,
-					content,
-					slug
-				}
-			});
-		} catch (e) {
-			if (typeof e === 'string') {
-				throw error(500, e.toUpperCase());
-			} else if (e instanceof Error) {
-				throw error(500, e.message);
+		if (!results.success) {
+			if (results.statusCode === 500) {
+				return error(500, results.message);
 			}
+
+			return invalid(results.statusCode, {
+				invalid: true,
+				message: results.message,
+				data: results.data
+			});
 		}
 
-		throw redirect(303, `/${slug}`);
+		if (results.statusCode === 201) throw redirect(303, `/${slug}`);
+
+		return invalid(500, {
+			invalid: true,
+			message: 'Something went wrong',
+			data: { title: '', content: '' }
+		});
 	}
 };

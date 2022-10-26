@@ -37,7 +37,7 @@
 		</div>
 		<div class="container relative h-full">
 			<pre
-				class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 overflow-hidden min-h-full overflow-x-auto"
+				class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 overflow-y-hidden min-h-full overflow-x-auto !whitespace-pre"
 				data-clipboard="gist-content">{cleanGistContent}</pre>
 		</div>
 	</div>

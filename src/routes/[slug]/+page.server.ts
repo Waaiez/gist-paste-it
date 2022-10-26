@@ -1,33 +1,21 @@
-import prisma from '$lib/db';
+import { retrieveGist } from '$lib/gistActions';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const { slug } = params;
-	try {
-		const gist = await prisma.gist.findUnique({
-			where: {
-				slug
-			}
-		});
 
-		if (!gist) {
-			throw error(404, 'Gist not found');
-		}
+	const response = await retrieveGist(slug);
 
-		const numOfLines = gist.content.split('\n').length;
-
-		return {
-			gist,
-			numOfLines
-		};
-	} catch (e) {
-		if (typeof e === 'string') {
-			throw error(500, e.toUpperCase());
-		} else if (e instanceof Error) {
-			throw error(500, e.message);
-		}
+	if (!response.success) {
+		throw error(response.statusCode, response.message);
 	}
 
-	throw error(404, 'Not found');
+	if (response.statusCode === 200)
+		return {
+			gist: response.data.gist,
+			numOfLines: response.data.numOfLines
+		};
+
+	throw error(404, 'Gist not found');
 };

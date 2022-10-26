@@ -1,36 +1,25 @@
-import prisma from '$lib/db';
 import type { PageServerLoad } from './$types';
 import { nanoid } from 'nanoid';
-import { error, invalid, redirect, type Actions } from '@sveltejs/kit';
+import { error, invalid, redirect } from '@sveltejs/kit';
+import { createGist, retrieveGist } from '$lib/gistActions';
+import type { Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const { slug } = params;
-	try {
-		const gist = await prisma.gist.findUnique({
-			where: {
-				slug
-			}
-		});
 
-		if (!gist) {
-			throw error(404, 'Gist not found');
-		}
+	const response = await retrieveGist(slug);
 
-		const numOfLines = gist.content.split('\n').length;
-
-		return {
-			gist,
-			numOfLines
-		};
-	} catch (e) {
-		if (typeof e === 'string') {
-			throw error(500, e.toUpperCase());
-		} else if (e instanceof Error) {
-			throw error(500, e.message);
-		}
+	if (!response.success) {
+		throw error(response.statusCode, response.message);
 	}
 
-	throw error(404, 'Not found');
+	if (response.statusCode === 200)
+		return {
+			gist: response.data.gist,
+			numOfLines: response.data.numOfLines
+		};
+
+	throw error(404, 'Gist not found');
 };
 
 export const actions: Actions = {
@@ -41,30 +30,26 @@ export const actions: Actions = {
 		const content = data.get('content') as string;
 		const slug = nanoid(6);
 
-		if (!title) {
-			return invalid(400, { title, missing: true });
-		}
+		const results = await createGist(title, content, slug);
 
-		if (!content) {
-			return invalid(400, { content, missing: true });
-		}
-
-		try {
-			await prisma.gist.create({
-				data: {
-					title,
-					content,
-					slug
-				}
-			});
-		} catch (e) {
-			if (typeof e === 'string') {
-				throw error(500, e.toUpperCase());
-			} else if (e instanceof Error) {
-				throw error(500, e.message);
+		if (!results.success) {
+			if (results.statusCode === 500) {
+				throw error(500, results.message);
 			}
+
+			return invalid(results.statusCode, {
+				invalid: true,
+				message: results.message,
+				data: results.data
+			});
 		}
 
-		throw redirect(303, `/${slug}`);
+		if (results.statusCode === 201) throw redirect(303, `/${slug}`);
+
+		return invalid(500, {
+			invalid: true,
+			message: 'Something went wrong',
+			data: { title: '', content: '' }
+		});
 	}
 };

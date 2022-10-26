@@ -1,3 +1,4 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: 'class',
@@ -8,6 +9,7 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
+				sans: ['Poppins', ...defaultTheme.fontFamily.sans],
 				mono: ['Fira Mono', 'monospace']
 			}
 		}
