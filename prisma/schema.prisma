@@ -11,11 +11,14 @@ datasource db {
 }
 
 model Gist {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now())
-  slug      String   @unique
-  title     String
-  content   String
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime @default(now())
+  slug              String   @unique
+  title             String
+  content           String
+  views             Int      @default(0)
+  language          String   @default("Plaintext (No Highlighting)")
+  languageShortHand String   @default("plaintext")
 
   @@index(slug)
 }

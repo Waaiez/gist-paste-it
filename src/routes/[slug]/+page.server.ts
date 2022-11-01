@@ -1,21 +1,27 @@
-import { retrieveGist } from '$lib/gistActions';
+import type { Gist } from '@prisma/client';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, fetch }) => {
 	const { slug } = params;
 
-	const response = await retrieveGist(slug);
+	const response = await fetch(`/api/gists/retrieve/${slug}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
 
-	if (!response.success) {
-		throw error(response.statusCode, response.message);
+	if (!response.ok) {
+		throw error(response.status, response.statusText);
 	}
 
-	if (response.statusCode === 200)
-		return {
-			gist: response.data.gist,
-			numOfLines: response.data.numOfLines
-		};
+	const { gist }: { gist: Gist } = await response.json();
 
-	throw error(404, 'Gist not found');
+	const numberOfLines = gist.content.split('\n').length;
+
+	return {
+		gist,
+		numberOfLines
+	};
 };

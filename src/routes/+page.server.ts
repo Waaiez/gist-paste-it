@@ -1,36 +1,38 @@
 import { nanoid } from 'nanoid';
 import { error, invalid, redirect } from '@sveltejs/kit';
-import { createGist } from '$lib/gistActions';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	default: async ({ request, fetch }) => {
 		const data = await request.formData();
 
 		const title = data.get('title') as string;
 		const content = data.get('content') as string;
+		const languageSelected = data.get('languageSelection') as string;
 		const slug = nanoid(6);
 
-		const results = await createGist(title, content, slug);
+		const pasteData = { title, content, languageSelected, slug };
 
-		if (!results.success) {
-			if (results.statusCode === 500) {
-				return error(500, results.message);
+		const response = await fetch('/api/gists/create', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(pasteData)
+		});
+
+		if (!response.ok) {
+			if (response.status === 500) {
+				throw error(500, response.statusText);
 			}
-
-			return invalid(results.statusCode, {
-				invalid: true,
-				message: results.message,
-				data: results.data
-			});
+			return invalid(response.status, { invalid: true, message: response.statusText });
 		}
 
-		if (results.statusCode === 201) throw redirect(303, `/${slug}`);
+		if (response.status === 201) throw redirect(303, `/${slug}`);
 
 		return invalid(500, {
 			invalid: true,
-			message: 'Something went wrong',
-			data: { title: '', content: '' }
+			message: 'Something went wrong'
 		});
 	}
 };

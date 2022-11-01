@@ -26,16 +26,29 @@
 
 <div class="h-screen w-full flex flex-col py-5">
 	<div class="w-full flex justify-center px-10">
-		<span class="text-4xl w-full flex justify-center">{data.gist.title}</span>
+		<span class="text-4xl w-full flex justify-center text-center">{data.gist.title}</span>
 	</div>
 
-	<div class="h-full relative  md:pl-12 font-mono overflow-auto my-3">
-		<div class="h-full top-5 left-0 w-8 text-right select-none float-left text-surface-400">
-			{#each Array(data.numOfLines) as _, i}
-				<span class="block">{i + 1}</span>
-			{/each}
+	<div class="mb-2 w-full rounded-lg md:px-10 h-full flex flex-col">
+		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500">
+			<div class="flex flex-wrap items-center">
+				<div class="flex items-center space-x-1 sm:pr-4">
+					<!-- TODO: add language here -->
+					<span class="text-gray-500">{data.gist.language}</span>
+				</div>
+			</div>
+
+			<div class="p-1 text-center text-gray-500 rounded sm:ml-auto">
+				{data.gist.views === 1 ? `${data.gist.views} View` : `${data.gist.views} Views`}
+			</div>
 		</div>
-		<div class="container relative h-full">
+		<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono">
+			<div class="h-full top-5 left-0 w-8 text-right select-none float-left text-gray-500">
+				{#each Array(data.numberOfLines) as _, i}
+					<span class="block">{i + 1}</span>
+				{/each}
+			</div>
+
 			<pre
 				class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 overflow-y-hidden min-h-full overflow-x-auto !whitespace-pre"
 				data-clipboard="gist-content">{cleanGistContent}</pre>

@@ -10,7 +10,7 @@
 	<meta name="description" content="Gist Paste It" />
 </svelte:head>
 
-<Toast background="bg-accent-500" position="tr" variant="filled" duration={500} />
+<Toast background="bg-accent-500" position="tr" duration={500} />
 
 <main class="h-screen scrollbar-thin">
 	<slot />

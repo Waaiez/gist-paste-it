@@ -8,6 +8,7 @@
 	import FaSave from 'svelte-icons-pack/fa/FaSave';
 
 	import { uneval } from 'devalue';
+	import LanguageSelectionInput from './LanguageSelection/LanguageSelectionInput.svelte';
 
 	export let existingData: {
 		gist: {
@@ -46,7 +47,9 @@
 	}
 
 	onMount(() => {
-		textarea.focus();
+		textarea.setSelectionRange(0, 0);
+		// textarea.focus();
+
 		textarea.value = '';
 		title.value = '';
 
@@ -88,9 +91,11 @@
 			/>
 		</label>
 	</div>
-	<!-- TODO: Add language selection -->
+
+	<!-- TODO: Add language selection
 	<div class="h-full relative pt-5 pl-12 font-mono">
 		<div class="absolute top-5 left-0 w-8 text-right text-lg select-none">&gt;</div>
+
 		<textarea
 			id="content"
 			name="content"
@@ -99,7 +104,31 @@
 			bind:this={textarea}
 			on:keydown={addTabs}
 		/>
+	</div> -->
+
+	<div class="mb-2 w-full rounded-lg md:px-10 h-full flex flex-col">
+		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500">
+			<div class="flex flex-wrap items-center">
+				<div class="flex items-center space-x-1 sm:pr-4">
+					<!-- TODO: add language here -->
+					<LanguageSelectionInput />
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono">
+			<div class="h-full top-5 left-0 w-8 text-right select-none float-left">&gt;</div>
+
+			<textarea
+				id="content"
+				name="content"
+				class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 min-h-full overflow-x-auto !whitespace-pre"
+				spellcheck="false"
+				bind:this={textarea}
+				on:keydown={addTabs}
+			/>
+		</div>
 	</div>
+
 	<div class="w-full h-14 flex justify-center px-10">
 		<button
 			type="submit"

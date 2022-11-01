@@ -14,11 +14,12 @@ This is a project similar to [Gist](https://gist.github.com/) and [Hastebin](htt
 
 ## Features:
 
-- [x] Create a gist
-- [x] View a gist
-- [x] View a gist as raw (plain text)
-- [x] Copy a gist
-- [x] Duplicate & Edit existing gists
+- [x] Create A Gist
+- [x] View A Gist
+- [x] View A Gist As Raw (Plain Text)
+- [x] Copy A Gist
+- [x] Duplicate & Edit Existing Gists
+- [x] Gist View Count
 
 ## Future Plans:
 
@@ -28,7 +29,8 @@ This is a project similar to [Gist](https://gist.github.com/) and [Hastebin](htt
 - Allow gists to be password protected
 - Allow gists to have timer to delete after a certain amount of time
 - Allowing gists to be viewed once before being deleted
-- Better error page
+- og:image for sharing on social media
+- media uploads
 
 ## Things to think about:
 
@@ -36,6 +38,7 @@ This is a project similar to [Gist](https://gist.github.com/) and [Hastebin](htt
   - Do I want to allow users to edit their gists?
     - Do I want to allow users to delete their gists?
 - Possibly allow user to choose slug length / custom slug
+- View count logic is probably wrong, do research
 
 ## Considerations:
 
@@ -45,4 +48,7 @@ This is a project similar to [Gist](https://gist.github.com/) and [Hastebin](htt
 ## TODO:
 
 - Look at TODO comments
-- Think about how to minimize duplicate code (i.e the code for fetching a gist)
+- Change all occurrences of Gist to Paste
+
+https://www.npmjs.com/package/highlight.js?activeTab=readme#nodejs-on-the-server
+https://github.com/AlexxNB/highlightjs-svelte

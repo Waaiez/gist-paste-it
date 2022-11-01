@@ -5,8 +5,10 @@
 
 	export let data: PageData;
 
-	const cleanedValue = uneval(data.content);
+	const cleanedValue = uneval(data.gist.content);
 	const cleanGistContent = (0, eval)('(' + cleanedValue + ')');
 </script>
 
-<pre class="!bg-transparent border-0 focus:ring-0 text-lg min-h-full">{cleanGistContent}</pre>
+<!-- TODO: See how to better implement raw functionality -->
+<!-- <pre class="!bg-transparent border-0 focus:ring-0 text-lg min-h-full">{cleanGistContent}</pre> -->
+{cleanGistContent}

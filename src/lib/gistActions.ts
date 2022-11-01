@@ -1,4 +1,5 @@
 import type { Gist } from '@prisma/client';
+import { error, invalid } from '@sveltejs/kit';
 import * as z from 'zod';
 import prisma from './db';
 
@@ -97,7 +98,8 @@ async function verifyGistInput(
 export async function createGist(
 	title: string,
 	content: string,
-	slug: string
+	slug: string,
+	languageSelected: string
 ): Promise<z.infer<typeof VerificationResultsSchema>> {
 	const results = await verifyGistInput(title, content);
 
@@ -132,46 +134,6 @@ export async function createGist(
 				title: '',
 				content: ''
 			}
-		};
-	}
-}
-
-export async function retrieveGist(slug: string) {
-	try {
-		const gist = await prisma.gist.findUnique({
-			where: {
-				slug
-			}
-		});
-
-		if (!gist) {
-			return {
-				success: false,
-				message: 'Gist not found',
-				statusCode: 404,
-				data: {}
-			};
-		}
-
-		const numOfLines = gist.content.split('\n').length;
-
-		return {
-			success: true,
-			message: 'Success',
-			statusCode: 200,
-			data: {
-				gist,
-				numOfLines
-			}
-		};
-	} catch (e) {
-		console.log('Error retrieving gist, [gistActions.ts > retrieveGist()]', e);
-
-		return {
-			success: false,
-			message: 'Something went wrong',
-			statusCode: 500,
-			data: {}
 		};
 	}
 }
