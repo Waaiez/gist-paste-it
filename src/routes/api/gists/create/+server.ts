@@ -1,6 +1,8 @@
 import languages from '$lib/components/LanguageSelection/languages.json';
 import prisma from '$lib/db';
 import { z } from 'zod';
+import { customAlphabet } from 'nanoid';
+import { alphanumeric } from 'nanoid-dictionary';
 
 type LanguageName = typeof languages[number]['name'];
 const LanguageNameValues: [LanguageName, ...LanguageName[]] = [
@@ -11,8 +13,7 @@ const LanguageNameValues: [LanguageName, ...LanguageName[]] = [
 const PasteSchema = z.object({
 	title: z.string().min(1).max(255),
 	content: z.string().min(1).max(25000),
-	languageSelected: z.enum(LanguageNameValues),
-	slug: z.string().min(6).max(6)
+	languageSelected: z.enum(LanguageNameValues)
 });
 
 type PasteSchema = z.infer<typeof PasteSchema>;
@@ -80,7 +81,11 @@ async function verifyInput(inputData: PasteSchema) {
 
 export async function POST({ request }) {
 	const pasteData: PasteSchema = await request.json();
-	const { title, content, languageSelected, slug } = pasteData;
+	const { title, content, languageSelected } = pasteData;
+
+	const nanoid = customAlphabet(alphanumeric, 7);
+	const slug = nanoid();
+	console.log('test', slug);
 
 	const languageShortHand = languages.find(function (el) {
 		return el.name === languageSelected;
@@ -106,9 +111,10 @@ export async function POST({ request }) {
 			}
 		});
 
+		// TODO: Look into better redirect
 		return new Response('Successfully created gist', {
-			status: 201,
-			statusText: 'Successfully created gist'
+			status: 302,
+			statusText: `${slug}`
 		});
 	} catch (e) {
 		console.log('Error creating gist, [api/gists/create]]', e);

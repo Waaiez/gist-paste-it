@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { error, invalid, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
@@ -9,9 +8,8 @@ export const actions: Actions = {
 		const title = data.get('title') as string;
 		const content = data.get('content') as string;
 		const languageSelected = data.get('languageSelection') as string;
-		const slug = nanoid(6);
 
-		const pasteData = { title, content, languageSelected, slug };
+		const pasteData = { title, content, languageSelected };
 
 		const response = await fetch('/api/gists/create', {
 			method: 'POST',
@@ -21,14 +19,14 @@ export const actions: Actions = {
 			body: JSON.stringify(pasteData)
 		});
 
-		if (!response.ok) {
+		if (response.status !== 302) {
 			if (response.status === 500) {
 				throw error(500, response.statusText);
 			}
 			return invalid(response.status, { invalid: true, message: response.statusText });
 		}
 
-		if (response.status === 201) throw redirect(303, `/${slug}`);
+		if (response.status === 302) throw redirect(303, `/${response.statusText}`);
 
 		return invalid(500, {
 			invalid: true,
