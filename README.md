@@ -32,6 +32,7 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 - Allow pastes to have timer to delete after a certain amount of time
 - Allowing pastes to be viewed once before being deleted
 - og:image for sharing on social media
+  - https://github.com/etherCorps/sveltekit-og
 - media uploads
 
 ## Things to think about:

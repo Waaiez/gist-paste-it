@@ -2,7 +2,6 @@ import languages from '$lib/components/LanguageSelection/languages.json';
 import prisma from '$lib/db';
 import { z } from 'zod';
 import { customAlphabet } from 'nanoid';
-import { alphanumeric } from 'nanoid-dictionary';
 
 type LanguageName = typeof languages[number]['name'];
 const LanguageNameValues: [LanguageName, ...LanguageName[]] = [
@@ -83,7 +82,11 @@ export async function POST({ request }) {
 	const pasteData: PasteSchema = await request.json();
 	const { title, content, languageSelected } = pasteData;
 
-	const nanoid = customAlphabet(alphanumeric, 7);
+	const nanoid = customAlphabet(
+		'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+		7
+	);
+
 	const slug = nanoid();
 	console.log('test', slug);
 
