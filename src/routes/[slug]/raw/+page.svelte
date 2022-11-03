@@ -11,4 +11,9 @@
 
 <!-- TODO: See how to better implement raw functionality -->
 <!-- <pre class="!bg-transparent border-0 focus:ring-0 text-lg min-h-full">{cleanGistContent}</pre> -->
-{cleanGistContent}
+
+<pre class="!rounded-none !bg-transparent !p-0 !m-0 !left-0 !top-0 flex">
+	{cleanGistContent.trim()}
+</pre>
+
+<!-- {cleanGistContent} -->

@@ -10,6 +10,12 @@
 	import FaSolidChevronUp from 'svelte-icons-pack/fa/FaSolidChevronUp';
 	import type { PageData } from './$types';
 
+	import hljs from 'highlight.js';
+	import hljs_svelte from 'highlightjs-svelte';
+	import 'highlight.js/styles/github-dark.css';
+
+	hljs_svelte(hljs);
+
 	export let data: PageData;
 
 	// https://github.com/rich-harris/devalue#xss-mitigation
@@ -22,18 +28,37 @@
 		};
 		toastStore.trigger(toastMessage);
 	}
+
+	let formatted: boolean = false;
+	let displayCode: string = cleanGistContent;
+
+	const language = data.gist.languageShortHand;
+
+	$: if (hljs !== undefined) {
+		displayCode = hljs
+			.highlight(cleanGistContent, {
+				language
+			})
+			.value.trim();
+		formatted = true;
+	}
 </script>
 
-<div class="h-screen w-full flex flex-col py-5">
-	<div class="w-full flex justify-center px-10">
-		<span class="text-4xl w-full flex justify-center text-center">{data.gist.title}</span>
+<div class="min-h-screen flex flex-col">
+	<!-- TODO: look into whether these classes are needed -->
+	<!-- TODO: Potentially line clamp for longer titles -->
+	<!-- <div class="w-full flex justify-center px-10">
+
+<span class="text-4xl w-full flex justify-center text-center">{data.gist.title}</span>
+    </div> -->
+	<div class="px-10 w-full flex justify-center my-2">
+		<span class="text-4xl text-center">{data.gist.title}</span>
 	</div>
 
-	<div class="mb-2 w-full rounded-lg md:px-10 h-full flex flex-col">
-		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500">
+	<div class="h-64 flex grow w-full md:px-10 flex-col">
+		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500 w-full">
 			<div class="flex flex-wrap items-center">
 				<div class="flex items-center space-x-1 sm:pr-4">
-					<!-- TODO: add language here -->
 					<span class="text-gray-500">{data.gist.language}</span>
 				</div>
 			</div>
@@ -42,20 +67,27 @@
 				{data.gist.views === 1 ? `${data.gist.views} View` : `${data.gist.views} Views`}
 			</div>
 		</div>
-		<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono">
+
+		<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono h-full overflow-scroll">
 			<div class="h-full top-5 left-0 w-8 text-right select-none float-left text-gray-500">
 				{#each Array(data.numberOfLines) as _, i}
 					<span class="block">{i + 1}</span>
 				{/each}
 			</div>
 
-			<pre
-				class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 overflow-y-hidden min-h-full overflow-x-auto !whitespace-pre"
-				data-clipboard="gist-content">{cleanGistContent}</pre>
+			<div class="h-full w-full relative">
+				<div class="code-block !bg-transparent text-white !leading-normal">
+					<pre
+						class="!bg-transparent text-white !leading-normal !rounded-none whitespace-pre break-all !py-0 !px-4 w-full resize-none"><code
+							class="language-{language}"
+							>{#if formatted}{@html displayCode}{:else}{cleanGistContent.trim()}{/if}</code
+						></pre>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="w-full h-14 flex justify-center px-10">
+	<div class="w-full h-14 flex justify-center px-10 my-2">
 		<button
 			type="button"
 			class="w-full max-w-xs bg-primary-500 btn btn-sm text-white rounded-lg text-lg mx-2"

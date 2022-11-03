@@ -20,10 +20,10 @@ This is a project similar to [Gist](https://gist.github.com/) and [Hastebin](htt
 - [x] Copy A Gist
 - [x] Duplicate & Edit Existing Gists
 - [x] Gist View Count
+- [x] Language Support (Syntax Highlighting)
 
 ## Future Plans:
 
-- Add Language Support (Syntax Highlighting)
 - Page to view latest gists
 - Allowing gists to be private (IE: Wont show up in latest gists)
 - Allow gists to be password protected

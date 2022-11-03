@@ -16,6 +16,8 @@ specifiers:
   eslint: ^8.26.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-svelte3: ^4.0.0
+  highlight.js: ^11.6.0
+  highlightjs-svelte: ^1.0.6
   nanoid: ^4.0.0
   nanoid-dictionary: ^4.3.0
   postcss: ^8.4.18
@@ -24,6 +26,7 @@ specifiers:
   prisma: ^4.5.0
   svelte: ^3.52.0
   svelte-check: ^2.9.2
+  svelte-highlight: ^6.2.1
   svelte-icons-pack: ^2.0.0
   svelte-preprocess: ^4.10.7
   tailwind-scrollbar: ^2.0.1
@@ -55,12 +58,15 @@ devDependencies:
   eslint: 8.26.0
   eslint-config-prettier: 8.5.0_eslint@8.26.0
   eslint-plugin-svelte3: 4.0.0_l6ppk7eerpslmlsqymzic46t24
+  highlight.js: 11.6.0
+  highlightjs-svelte: 1.0.6
   postcss: 8.4.18
   prettier: 2.7.1
   prettier-plugin-svelte: 2.8.0_lrllcp5xtrkmmdzifit4hd52ze
   prisma: 4.5.0
   svelte: 3.52.0
   svelte-check: 2.9.2_vidagnlh55bt6yxji7dk5y5wla
+  svelte-highlight: 6.2.1
   svelte-preprocess: 4.10.7_thgq75zisbcmm7d6lsbrpbdhti
   tailwind-scrollbar: 2.0.1_tailwindcss@3.2.1
   tailwindcss: 3.2.1_postcss@8.4.18
@@ -1402,6 +1408,15 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /highlight.js/11.6.0:
+    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
+    engines: {node: '>=12.0.0'}
+    dev: true
+
+  /highlightjs-svelte/1.0.6:
+    resolution: {integrity: sha512-aXuBPz8df3sOXg90q8rRcBLyxIR8ozPU39a6tJ2rpJUjjd9brRIr55aC0IccW4gsPhQxZ+B3rFugdXsg9/ckDw==}
+    dev: true
+
   /https-proxy-agent/5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
@@ -2178,6 +2193,12 @@ packages:
       - sass
       - stylus
       - sugarss
+    dev: true
+
+  /svelte-highlight/6.2.1:
+    resolution: {integrity: sha512-nZoweg5atreJHAJPaB0nca+r6YhDzbEJQrtKDO2mR/muEzsRKxMeSF3Q8BV0Au+T2jMWGBPwlBzA/tqv9yG9UQ==}
+    dependencies:
+      highlight.js: 11.6.0
     dev: true
 
   /svelte-hmr/0.15.0_svelte@3.52.0:
