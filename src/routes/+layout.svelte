@@ -6,8 +6,8 @@
 </script>
 
 <svelte:head>
-	<title>Gist Paste It</title>
-	<meta name="description" content="Gist Paste It" />
+	<title>Pasterr</title>
+	<meta name="description" content="Pasterr" />
 </svelte:head>
 
 <Toast background="bg-accent-500" position="tr" duration={500} />

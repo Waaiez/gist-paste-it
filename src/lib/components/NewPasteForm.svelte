@@ -11,11 +11,11 @@
 	import LanguageSelectionInput from './LanguageSelection/LanguageSelectionInput.svelte';
 
 	export let existingData: {
-		gist: {
+		paste: {
 			title: string;
 			content: string;
 		};
-	} = { gist: { title: '', content: '' } };
+	} = { paste: { title: '', content: '' } };
 
 	export let formTitle = '';
 	export let formContent = '';
@@ -53,11 +53,11 @@
 		textarea.value = '';
 		title.value = '';
 
-		const cleanedValue = uneval(existingData.gist.content);
-		const cleanGistContent = (0, eval)('(' + cleanedValue + ')');
+		const cleanedValue = uneval(existingData.paste.content);
+		const cleanPasteContent = (0, eval)('(' + cleanedValue + ')');
 
-		textarea.value = cleanGistContent;
-		title.value = existingData.gist.title;
+		textarea.value = cleanPasteContent;
+		title.value = existingData.paste.title;
 
 		isAbleToSubmit = textarea.value.length > 0 && title.value.length > 0;
 

@@ -6,7 +6,7 @@ export async function GET({ params }) {
 	const { slug } = params;
 
 	try {
-		const gist = await prisma.gist.update({
+		const paste = await prisma.paste.update({
 			where: {
 				slug
 			},
@@ -18,16 +18,16 @@ export async function GET({ params }) {
 		});
 
 		return json({
-			gist
+			paste
 		});
 	} catch (e) {
-		console.log('Error retrieving gist, [api/gists/retrieve/[slug]]', e);
+		console.log('Error retrieving paste, [api/pastes/retrieve/[slug]]', e);
 
 		if (e instanceof Prisma.PrismaClientKnownRequestError) {
 			if (e.code === 'P2025') {
-				return new Response('Gist does not exist', {
+				return new Response('Paste does not exist', {
 					status: 404,
-					statusText: 'Gist does not exist'
+					statusText: 'Paste does not exist'
 				});
 			}
 

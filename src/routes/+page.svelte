@@ -1,5 +1,5 @@
 <script lang="ts">
-	import NewGistForm from '$lib/components/NewGistForm.svelte';
+	import NewPasteForm from '$lib/components/NewPasteForm.svelte';
 	import { toastStore, type ToastMessage } from '@brainandbones/skeleton';
 	import type { ActionData } from './$types';
 
@@ -17,5 +17,5 @@
 </script>
 
 <form method="POST" class="h-full">
-	<NewGistForm />
+	<NewPasteForm />
 </form>

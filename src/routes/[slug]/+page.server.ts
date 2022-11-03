@@ -1,11 +1,11 @@
-import type { Gist } from '@prisma/client';
+import type { Paste } from '@prisma/client';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
 	const { slug } = params;
 
-	const response = await fetch(`/api/gists/retrieve/${slug}`, {
+	const response = await fetch(`/api/pastes/retrieve/${slug}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -16,12 +16,12 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		throw error(response.status, response.statusText);
 	}
 
-	const { gist }: { gist: Gist } = await response.json();
+	const { paste }: { paste: Paste } = await response.json();
 
-	const numberOfLines = gist.content.split('\n').length;
+	const numberOfLines = paste.content.split('\n').length;
 
 	return {
-		gist,
+		paste,
 		numberOfLines
 	};
 };

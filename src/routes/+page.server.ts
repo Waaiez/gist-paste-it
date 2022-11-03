@@ -11,7 +11,7 @@ export const actions: Actions = {
 
 		const pasteData = { title, content, languageSelected };
 
-		const response = await fetch('/api/gists/create', {
+		const response = await fetch('/api/pastes/create', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

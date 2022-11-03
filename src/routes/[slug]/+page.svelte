@@ -19,8 +19,8 @@
 	export let data: PageData;
 
 	// https://github.com/rich-harris/devalue#xss-mitigation
-	const cleanedValue = uneval(data.gist.content);
-	const cleanGistContent = (0, eval)('(' + cleanedValue + ')');
+	const cleanedValue = uneval(data.paste.content);
+	const cleanPasteContent = (0, eval)('(' + cleanedValue + ')');
 
 	function handleCopy() {
 		const toastMessage: ToastMessage = {
@@ -30,13 +30,13 @@
 	}
 
 	let formatted: boolean = false;
-	let displayCode: string = cleanGistContent;
+	let displayCode: string = cleanPasteContent;
 
-	const language = data.gist.languageShortHand;
+	const language = data.paste.languageShortHand;
 
 	$: if (hljs !== undefined) {
 		displayCode = hljs
-			.highlight(cleanGistContent, {
+			.highlight(cleanPasteContent, {
 				language
 			})
 			.value.trim();
@@ -49,22 +49,22 @@
 	<!-- TODO: Potentially line clamp for longer titles -->
 	<!-- <div class="w-full flex justify-center px-10">
 
-<span class="text-4xl w-full flex justify-center text-center">{data.gist.title}</span>
+<span class="text-4xl w-full flex justify-center text-center">{data.paste.title}</span>
     </div> -->
 	<div class="px-10 w-full flex justify-center my-2">
-		<span class="text-4xl text-center">{data.gist.title}</span>
+		<span class="text-4xl text-center">{data.paste.title}</span>
 	</div>
 
 	<div class="h-64 flex grow w-full md:px-10 flex-col">
 		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500 w-full">
 			<div class="flex flex-wrap items-center">
 				<div class="flex items-center space-x-1 sm:pr-4">
-					<span class="text-gray-500">{data.gist.language}</span>
+					<span class="text-gray-500">{data.paste.language}</span>
 				</div>
 			</div>
 
 			<div class="p-1 text-center text-gray-500 rounded sm:ml-auto">
-				{data.gist.views === 1 ? `${data.gist.views} View` : `${data.gist.views} Views`}
+				{data.paste.views === 1 ? `${data.paste.views} View` : `${data.paste.views} Views`}
 			</div>
 		</div>
 
@@ -80,7 +80,7 @@
 					<pre
 						class="!bg-transparent text-white !leading-normal !rounded-none whitespace-pre break-all !py-0 !px-4 w-full resize-none"><code
 							class="language-{language}"
-							>{#if formatted}{@html displayCode}{:else}{cleanGistContent.trim()}{/if}</code
+							>{#if formatted}{@html displayCode}{:else}{cleanPasteContent.trim()}{/if}</code
 						></pre>
 				</div>
 			</div>
@@ -99,17 +99,17 @@
 			<button
 				type="button"
 				class="bg-accent-500 btn btn-sm text-white rounded-lg text-lg mx-2 h-full"
-				use:menu={{ menu: 'gist-options' }}
+				use:menu={{ menu: 'paste-options' }}
 			>
 				<Icon src={FaSolidChevronUp} color="white" size="20" />
 			</button>
-			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="gist-options">
+			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="paste-options">
 				<ul>
 					<li>
 						<button
 							type="button"
 							class="btn btn-base text-white hover:bg-primary-500/10 rounded-lg w-full !text-left"
-							use:clipboard={data.gist.content}
+							use:clipboard={data.paste.content}
 							on:click={handleCopy}
 							><span class="w-full">Copy</span>
 						</button>

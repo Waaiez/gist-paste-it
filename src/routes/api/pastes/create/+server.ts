@@ -101,7 +101,7 @@ export async function POST({ request }) {
 	}
 
 	try {
-		await prisma.gist.create({
+		await prisma.paste.create({
 			data: {
 				title,
 				content,
@@ -112,12 +112,12 @@ export async function POST({ request }) {
 		});
 
 		// TODO: Look into better redirect
-		return new Response('Successfully created gist', {
+		return new Response('Successfully created paste', {
 			status: 302,
 			statusText: `${slug}`
 		});
 	} catch (e) {
-		console.log('Error creating gist, [api/gists/create]]', e);
+		console.log('Error creating paste, [api/pastes/create]]', e);
 
 		return new Response('Something went wrong', {
 			status: 500,
