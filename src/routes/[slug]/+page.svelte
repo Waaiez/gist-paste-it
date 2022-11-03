@@ -44,10 +44,6 @@
 	}
 </script>
 
-<svelte:head>
-	<meta property="og:image" content="https://sveltekit-og.ethercorps.io/" />
-</svelte:head>
-
 <div class="min-h-screen flex flex-col">
 	<!-- TODO: look into whether these classes are needed -->
 	<!-- TODO: Potentially line clamp for longer titles -->
