@@ -31,9 +31,10 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 - Allow pastes to be password protected
 - Allow pastes to have timer to delete after a certain amount of time
 - Allowing pastes to be viewed once before being deleted
+- media uploads
+
 - og:image for sharing on social media
   - https://github.com/etherCorps/sveltekit-og
-- media uploads
 
 ## Things to think about:
 
@@ -51,9 +52,8 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 ## TODO:
 
 - Look at TODO comments
-
-https://www.npmjs.com/package/highlight.js?activeTab=readme#nodejs-on-the-server
-https://github.com/AlexxNB/highlightjs-svelte
+- Think more about og:images
+  - Might not be feasible trying to pull data from db on the fly
 
 ## Attribution:
 

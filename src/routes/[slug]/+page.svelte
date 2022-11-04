@@ -13,6 +13,7 @@
 	import hljs from 'highlight.js';
 	import hljs_svelte from 'highlightjs-svelte';
 	import 'highlight.js/styles/github-dark.css';
+	import { urlAlphabet } from 'nanoid';
 
 	hljs_svelte(hljs);
 
@@ -43,6 +44,14 @@
 		formatted = true;
 	}
 </script>
+
+<svelte:head>
+	<meta property="og:title" content="Pasterr" />
+	<meta property="og:site_name" content="Pasterr" />
+	<meta property="og:description" content="A Paste From Pasterr" />
+	<meta property="og:image" content="{$page.url.origin}/api/pastes/og/{data.paste.slug}" />
+	<meta name="twitter:card" content="summary_large_image" />
+</svelte:head>
 
 <div class="min-h-screen flex flex-col">
 	<!-- TODO: look into whether these classes are needed -->
