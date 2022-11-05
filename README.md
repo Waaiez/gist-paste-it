@@ -27,11 +27,11 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 ## Future Plans:
 
 - Page to view latest pastes
+- media uploads
 - Allowing pastes to be private (IE: Wont show up in latest pastes)
 - Allow pastes to be password protected
 - Allow pastes to have timer to delete after a certain amount of time
 - Allowing pastes to be viewed once before being deleted
-- media uploads
 
 - og:image for sharing on social media
   - https://github.com/etherCorps/sveltekit-og

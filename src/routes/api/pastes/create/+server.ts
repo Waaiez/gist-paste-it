@@ -117,7 +117,7 @@ export async function POST({ request }) {
 		// TODO: Look into better redirect
 		return new Response('Successfully created paste', {
 			status: 302,
-			statusText: `${slug}`
+			statusText: `/view/${slug}`
 		});
 	} catch (e) {
 		console.log('Error creating paste, [api/pastes/create]]', e);

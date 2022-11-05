@@ -1,19 +1,25 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
-	import { uneval } from 'devalue';
-	import { menu, type ToastMessage } from '@brainandbones/skeleton';
 	import { page } from '$app/stores';
-	import { toastStore, clipboard } from '@brainandbones/skeleton';
+	import { uneval } from 'devalue';
+	import type { PageData } from './$types';
+
+	import {
+		toastStore,
+		clipboard,
+		menu,
+		type ToastMessage,
+		type DialogAlert,
+		dialogStore
+	} from '@brainandbones/skeleton';
+
 	import Icon from 'svelte-icons-pack';
 	// @ts-ignore
 	import FaSolidChevronUp from 'svelte-icons-pack/fa/FaSolidChevronUp';
-	import type { PageData } from './$types';
 
 	import hljs from 'highlight.js';
 	import hljs_svelte from 'highlightjs-svelte';
 	import 'highlight.js/styles/github-dark.css';
-	import { urlAlphabet } from 'nanoid';
 
 	hljs_svelte(hljs);
 
@@ -22,6 +28,9 @@
 	// https://github.com/rich-harris/devalue#xss-mitigation
 	const cleanedValue = uneval(data.paste.content);
 	const cleanPasteContent = (0, eval)('(' + cleanedValue + ')');
+
+	const viewCountString =
+		data.paste.views === 1 ? `${data.paste.views} View` : `${data.paste.views} Views`;
 
 	function handleCopy() {
 		const toastMessage: ToastMessage = {
@@ -43,6 +52,11 @@
 			.value.trim();
 		formatted = true;
 	}
+
+	const showTitleDialog: DialogAlert = {
+		title: 'Full Paste Title',
+		body: data.paste.title
+	};
 </script>
 
 <svelte:head>
@@ -55,15 +69,17 @@
 
 <div class="min-h-screen flex flex-col">
 	<!-- TODO: look into whether these classes are needed -->
-	<!-- TODO: Potentially line clamp for longer titles -->
-	<!-- <div class="w-full flex justify-center px-10">
+	<!-- <div class="w-full flex justify-center px-10"><span class="text-4xl w-full flex justify-center text-center">{data.paste.title}</span></div> -->
 
-<span class="text-4xl w-full flex justify-center text-center">{data.paste.title}</span>
-    </div> -->
+	<!-- Paste Title -->
 	<div class="px-10 w-full flex justify-center my-2">
-		<span class="text-4xl text-center">{data.paste.title}</span>
+		<span class="text-4xl text-center p-1 line-clamp-1 md:line-clamp-3 lg:line-clamp-none"
+			>{data.paste.title}</span
+		>
 	</div>
+	<!-- Paste Title -->
 
+	<!-- Paste Content -->
 	<div class="h-64 flex grow w-full md:px-10 flex-col">
 		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500 w-full">
 			<div class="flex flex-wrap items-center">
@@ -73,7 +89,7 @@
 			</div>
 
 			<div class="p-1 text-center text-gray-500 rounded sm:ml-auto">
-				{data.paste.views === 1 ? `${data.paste.views} View` : `${data.paste.views} Views`}
+				{viewCountString}
 			</div>
 		</div>
 
@@ -95,52 +111,58 @@
 			</div>
 		</div>
 	</div>
+	<!-- Paste Content -->
 
+	<!-- Action Buttons -->
 	<div class="w-full h-14 flex justify-center px-10 my-2">
-		<button
-			type="button"
-			class="w-full max-w-xs bg-primary-500 btn btn-sm text-white rounded-lg text-lg mx-2"
-			on:click={() => goto('/')}
+		<a href="/" class="btn text-white btn-filled-primary w-full max-w-xs mx-2"
+			><span class="w-full">New</span></a
 		>
-			<span> New </span>
-		</button>
+
 		<div class="relative">
 			<button
 				type="button"
-				class="bg-accent-500 btn btn-sm text-white rounded-lg text-lg mx-2 h-full"
+				class="btn-filled-accent btn text-white mx-2 h-full"
 				use:menu={{ menu: 'paste-options' }}
 			>
 				<Icon src={FaSolidChevronUp} color="white" size="20" />
 			</button>
 			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="paste-options">
-				<ul>
+				<ul data-sveltekit-prefetch="off">
 					<li>
 						<button
 							type="button"
-							class="btn btn-base text-white hover:bg-primary-500/10 rounded-lg w-full !text-left"
+							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
+							on:click={() => dialogStore.trigger(showTitleDialog)}
+							><span class="w-full">Show Title</span>
+						</button>
+					</li>
+					<li>
+						<button
+							type="button"
+							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
 							use:clipboard={data.paste.content}
 							on:click={handleCopy}
 							><span class="w-full">Copy</span>
 						</button>
 					</li>
 					<li>
-						<button
-							type="button"
-							class="btn btn-base text-white hover:bg-primary-500/10 rounded-lg w-full !text-left"
-							on:click={() => goto('/new/' + $page.params.slug)}
-							><span class="w-full">Duplicate & Edit</span>
-						</button>
+						<a
+							href="/new/{$page.params.slug}"
+							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
+							><span class="w-full px-1">Duplicate & Edit</span></a
+						>
 					</li>
 					<li>
-						<button
-							type="button"
-							class="btn btn-base text-white hover:bg-primary-500/10 rounded-lg w-full !text-left"
-							on:click={() => goto('/' + $page.params.slug + '/raw')}
-							><span class="w-full">Raw</span>
-						</button>
+						<a
+							href="/view/{$page.params.slug}/raw"
+							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
+							><span class="w-full px-1">Raw</span></a
+						>
 					</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
+	<!-- Action Buttons -->
 </div>

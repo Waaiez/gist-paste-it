@@ -75,6 +75,7 @@
 </script>
 
 <div class="h-full w-full flex flex-col py-5">
+	<!-- Title Input -->
 	<div class="w-full flex justify-center px-10">
 		<label for="title" class="w-full flex justify-center">
 			<input
@@ -91,30 +92,21 @@
 			/>
 		</label>
 	</div>
+	<!-- Title Input -->
 
-	<!-- TODO: Add language selection
-	<div class="h-full relative pt-5 pl-12 font-mono">
-		<div class="absolute top-5 left-0 w-8 text-right text-lg select-none">&gt;</div>
-
-		<textarea
-			id="content"
-			name="content"
-			spellcheck="false"
-			class="!bg-transparent border-0 p-1 w-full h-full outline-none resize-none my-0 focus:ring-0 text-lg leading-5 scrollbar-thin"
-			bind:this={textarea}
-			on:keydown={addTabs}
-		/>
-	</div> -->
-
+	<!-- Language Selection & Paste Input -->
 	<div class="mb-2 w-full rounded-lg md:px-10 h-full flex flex-col">
+		<!-- Language Selection -->
 		<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500">
 			<div class="flex flex-wrap items-center">
 				<div class="flex items-center space-x-1 sm:pr-4">
-					<!-- TODO: add language here -->
 					<LanguageSelectionInput />
 				</div>
 			</div>
 		</div>
+		<!-- Language Selection -->
+
+		<!-- Paste Input -->
 		<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono">
 			<div class="h-full top-5 left-0 w-8 text-right select-none float-left">&gt;</div>
 
@@ -127,23 +119,23 @@
 				on:keydown={addTabs}
 			/>
 		</div>
+		<!-- Paste Input -->
 	</div>
+	<!-- Language Selection & Paste Input -->
 
+	<!-- Action Buttons -->
 	<div class="w-full h-14 flex justify-center px-10">
 		<button
 			type="submit"
-			class="w-full max-w-xs bg-primary-500 btn btn-sm text-white rounded-lg text-lg mx-2"
+			class="w-full max-w-xs btn-filled-primary btn  text-white rounded-lg text-lg mx-2"
 			disabled={!isAbleToSubmit}
 			on:click={submit}
 		>
 			<span> Create </span>
 		</button>
-		<button
-			type="button"
-			class=" bg-accent-500 btn btn-sm text-white rounded-lg text-lg mx-2"
-			on:click={clearForm}
-		>
+		<button type="button" class="btn btn-filled-accent mx-2" on:click={clearForm}>
 			<Icon src={FaSolidPlus} color="white" size="20" />
 		</button>
 	</div>
+	<!-- Action Buttons -->
 </div>
