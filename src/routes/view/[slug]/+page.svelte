@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { uneval } from 'devalue';
 	import type { PageData } from './$types';
@@ -13,9 +12,8 @@
 		dialogStore
 	} from '@brainandbones/skeleton';
 
-	import Icon from 'svelte-icons-pack';
-	// @ts-ignore
-	import FaSolidChevronUp from 'svelte-icons-pack/fa/FaSolidChevronUp';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { ChevronUp } from '@steeze-ui/heroicons';
 
 	import hljs from 'highlight.js';
 	import hljs_svelte from 'highlightjs-svelte';
@@ -115,7 +113,7 @@
 
 	<!-- Action Buttons -->
 	<div class="w-full h-14 flex justify-center px-10 my-2">
-		<a href="/" class="btn text-white btn-filled-primary w-full max-w-xs mx-2"
+		<a href="/" class="btn text-white btn-filled-primary w-full max-w-xs mx-2 !text-xl"
 			><span class="w-full">New</span></a
 		>
 
@@ -125,7 +123,7 @@
 				class="btn-filled-accent btn text-white mx-2 h-full"
 				use:menu={{ menu: 'paste-options' }}
 			>
-				<Icon src={FaSolidChevronUp} color="white" size="20" />
+				<Icon src={ChevronUp} theme="solid" class="text-white" size="25" />
 			</button>
 			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="paste-options">
 				<ul data-sveltekit-prefetch="off">

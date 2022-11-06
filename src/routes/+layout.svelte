@@ -4,8 +4,8 @@
 	import '../app.css';
 	import { Dialog, Toast } from '@brainandbones/skeleton';
 
-	import Icon from 'svelte-icons-pack';
-	import FiMenu from 'svelte-icons-pack/fi/FiMenu';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { Bars3 } from '@steeze-ui/heroicons';
 
 	import { storeDrawer } from '$lib/stores';
 	import AppDraw from '$lib/components/AppDraw.svelte';
@@ -30,7 +30,7 @@
 				storeDrawer.set(true);
 			}}
 		>
-			<span><Icon src={FiMenu} color="white" size="25" /></span>
+			<span><Icon src={Bars3} theme="solid" class="text-white" size="30" /> </span>
 		</button>
 	{/if}
 

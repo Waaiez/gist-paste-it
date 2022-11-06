@@ -1,8 +1,9 @@
 import prisma from '$lib/db';
 import { Prisma } from '@prisma/client';
 import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-export async function GET({ params }) {
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 
 	try {
@@ -17,8 +18,10 @@ export async function GET({ params }) {
 			}
 		});
 
+		const pasteWithoutId = { ...paste, id: '' };
+
 		return json({
-			paste
+			paste: pasteWithoutId
 		});
 	} catch (e) {
 		console.log('Error retrieving paste, [api/pastes/retrieve/[slug]]', e);
@@ -42,4 +45,4 @@ export async function GET({ params }) {
 			statusText: 'Internal server error'
 		});
 	}
-}
+};

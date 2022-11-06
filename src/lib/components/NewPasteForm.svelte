@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
-	// @ts-ignore
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-	// @ts-ignore
-	import FaSolidPlus from 'svelte-icons-pack/fa/FaSolidPlus';
-	import FaSave from 'svelte-icons-pack/fa/FaSave';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { Plus } from '@steeze-ui/heroicons';
 
 	import { uneval } from 'devalue';
 	import LanguageSelectionInput from './LanguageSelection/LanguageSelectionInput.svelte';
@@ -74,7 +71,7 @@
 	$: formContent = textarea?.value ?? '';
 </script>
 
-<div class="h-full w-full flex flex-col py-5">
+<div class="h-full w-full flex flex-col py-2">
 	<!-- Title Input -->
 	<div class="w-full flex justify-center px-10">
 		<label for="title" class="w-full flex justify-center">
@@ -127,14 +124,14 @@
 	<div class="w-full h-14 flex justify-center px-10">
 		<button
 			type="submit"
-			class="w-full max-w-xs btn-filled-primary btn  text-white rounded-lg text-lg mx-2"
+			class="w-full max-w-xs btn-filled-primary btn  text-white rounded-lg !text-xl mx-2 !py-4"
 			disabled={!isAbleToSubmit}
 			on:click={submit}
 		>
 			<span> Create </span>
 		</button>
 		<button type="button" class="btn btn-filled-accent mx-2" on:click={clearForm}>
-			<Icon src={FaSolidPlus} color="white" size="20" />
+			<Icon src={Plus} theme="solid" class="text-white" size="25" />
 		</button>
 	</div>
 	<!-- Action Buttons -->

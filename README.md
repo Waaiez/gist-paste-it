@@ -23,10 +23,10 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 - [x] Duplicate & Edit Existing Pastes
 - [x] Paste View Count
 - [x] Language Support (Syntax Highlighting)
+- [x] Latest Pastes Page
 
 ## Future Plans:
 
-- Page to view latest pastes
 - media uploads
 - Allowing pastes to be private (IE: Wont show up in latest pastes)
 - Allow pastes to be password protected

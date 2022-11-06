@@ -10,15 +10,22 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"prisma": {
+		"seed": "ts-node-esm --transpile-only prisma/seed.ts"
+	},
 	"devDependencies": {
 		"@brainandbones/skeleton": "0.67.5",
+		"@faker-js/faker": "^7.6.0",
 		"@neoconfetti/svelte": "^1.0.0",
+		"@steeze-ui/heroicons": "^2.1.0",
+		"@steeze-ui/svelte-icon": "^1.3.2",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tailwindcss/typography": "^0.5.7",
 		"@types/cookie": "^0.5.1",
+		"@types/node": "*",
 		"@typescript-eslint/eslint-plugin": "5.42.0",
 		"@typescript-eslint/parser": "5.42.0",
 		"autoprefixer": "^10.4.13",
@@ -43,10 +50,12 @@
 	"type": "module",
 	"dependencies": {
 		"@ethercorps/sveltekit-og": "^0.1.7",
+		"@formkit/auto-animate": "1.0.0-beta.3",
 		"@prisma/client": "^4.5.0",
 		"devalue": "^4.2.0",
 		"nanoid": "^4.0.0",
-		"svelte-icons-pack": "^2.0.0",
+		"svelte-inview": "^3.0.1",
+		"ts-node": "^10.9.1",
 		"zod": "^3.19.1"
 	}
 }

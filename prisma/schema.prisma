@@ -17,6 +17,7 @@ model Paste {
   title             String
   content           String
   views             Int      @default(0)
+  isPrivate         Boolean  @default(false)
   language          String   @default("Plaintext (No Highlighting)")
   languageShortHand String   @default("plaintext")
 

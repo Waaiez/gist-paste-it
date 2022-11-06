@@ -1,6 +1,7 @@
 import prisma from '$lib/db';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
 import type { Paste } from '@prisma/client';
+import type { RequestHandler } from './$types';
 
 const fontFile = await fetch('https://og-playground.vercel.app/inter-latin-ext-400-normal.woff');
 const fontData: ArrayBuffer = await fontFile.arrayBuffer();
@@ -40,7 +41,8 @@ function createOgTemplate(paste: Paste) {
   </div>`;
 }
 
-export async function GET({ params }) {
+// @ts-ignore
+export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 	try {
 		const paste = await prisma.paste.findUnique({
@@ -92,4 +94,4 @@ export async function GET({ params }) {
 			]
 		});
 	}
-}
+};

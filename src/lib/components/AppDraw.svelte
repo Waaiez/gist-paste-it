@@ -10,8 +10,6 @@
 
 	$: classesActive = (href: string) => ($page.url.pathname === href ? '!bg-primary-500' : '');
 
-	console.log($page.url);
-
 	let menuNavLinks: any = [
 		{ href: '/latest', label: 'Latest Pastes' },
 		{ href: '/', label: 'New Paste' },

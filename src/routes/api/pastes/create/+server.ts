@@ -2,6 +2,7 @@ import languages from '$lib/components/LanguageSelection/languages.json';
 import prisma from '$lib/db';
 import { z } from 'zod';
 import { customAlphabet } from 'nanoid';
+import type { RequestHandler } from './$types';
 
 type LanguageName = typeof languages[number]['name'];
 const LanguageNameValues: [LanguageName, ...LanguageName[]] = [
@@ -78,7 +79,7 @@ async function verifyInput(inputData: PasteSchema) {
 	}
 }
 
-export async function POST({ request }) {
+export const POST: RequestHandler = async ({ request }) => {
 	const pasteData: PasteSchema = await request.json();
 	const { title, content, languageSelected } = pasteData;
 
@@ -88,7 +89,6 @@ export async function POST({ request }) {
 	);
 
 	const slug = nanoid();
-	console.log('test', slug);
 
 	const languageShortHand = languages.find(function (el) {
 		return el.name === languageSelected;
@@ -117,7 +117,7 @@ export async function POST({ request }) {
 		// TODO: Look into better redirect
 		return new Response('Successfully created paste', {
 			status: 302,
-			statusText: `/view/${slug}`
+			statusText: `view/${slug}`
 		});
 	} catch (e) {
 		console.log('Error creating paste, [api/pastes/create]]', e);
@@ -127,4 +127,4 @@ export async function POST({ request }) {
 			statusText: 'Something went wrong'
 		});
 	}
-}
+};
