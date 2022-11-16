@@ -1,14 +1,14 @@
 <script lang="ts">
 	import NewPasteForm from '$lib/components/NewPasteForm.svelte';
-	import { toastStore, type ToastMessage } from '@brainandbones/skeleton';
+	import { toastStore, type ToastSettings } from '@brainandbones/skeleton';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
 
-	// TODO: Change colour of toast when Skeleton supports it
 	function triggerToast(message: string) {
-		const toastMessage: ToastMessage = {
-			message
+		const toastMessage: ToastSettings = {
+			message,
+			classes: 'bg-warning-500'
 		};
 		toastStore.trigger(toastMessage);
 	}

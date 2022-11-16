@@ -7,6 +7,8 @@
 	import { uneval } from 'devalue';
 	import LanguageSelectionInput from './LanguageSelection/LanguageSelectionInput.svelte';
 
+	import { focusTrap } from '@brainandbones/skeleton';
+
 	export let existingData: {
 		paste: {
 			title: string;
@@ -71,7 +73,7 @@
 	$: formContent = textarea?.value ?? '';
 </script>
 
-<div class="h-full w-full flex flex-col py-2">
+<div class="h-full w-full flex flex-col py-2" use:focusTrap={true}>
 	<!-- Title Input -->
 	<div class="w-full flex justify-center px-10">
 		<label for="title" class="w-full flex justify-center">

@@ -7,9 +7,9 @@
 		toastStore,
 		clipboard,
 		menu,
-		type ToastMessage,
-		type DialogAlert,
-		dialogStore
+		type ToastSettings,
+		type ModalSettings,
+		modalStore
 	} from '@brainandbones/skeleton';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
@@ -31,7 +31,7 @@
 		data.paste.views === 1 ? `${data.paste.views} View` : `${data.paste.views} Views`;
 
 	function handleCopy() {
-		const toastMessage: ToastMessage = {
+		const toastMessage: ToastSettings = {
 			message: 'Copied to clipboard'
 		};
 		toastStore.trigger(toastMessage);
@@ -51,8 +51,8 @@
 		formatted = true;
 	}
 
-	const showTitleDialog: DialogAlert = {
-		title: 'Full Paste Title',
+	const showTitleModal: ModalSettings = {
+		type: 'alert',
 		body: data.paste.title
 	};
 </script>
@@ -131,7 +131,7 @@
 						<button
 							type="button"
 							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
-							on:click={() => dialogStore.trigger(showTitleDialog)}
+							on:click={() => modalStore.trigger(showTitleModal)}
 							><span class="w-full">Show Title</span>
 						</button>
 					</li>
