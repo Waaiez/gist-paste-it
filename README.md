@@ -24,6 +24,7 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 - [x] Paste View Count
 - [x] Language Support (Syntax Highlighting)
 - [x] Latest Pastes Page
+- [x] Paste Visibility (Public/Private)
 
 ## Future Plans:
 
@@ -48,6 +49,7 @@ This is a project similar to [Github Gists](https://gist.github.com/), [Hastebin
 
 - No rate limiting
 - Prisma apparently uses prepared statements, but I'm not sure if that's enough to prevent SQL injection attacks
+- To improve perceived performance, move the loading of paste data to an onMount function and show skeleton cards to indicate loading
 
 ## TODO:
 

@@ -1,11 +1,13 @@
 <script>
-	import '@brainandbones/skeleton/themes/theme-skeleton.css';
-	import '@brainandbones/skeleton/styles/all.css';
+	// skeleton rocket vintage modern sahara seafoam hamlindigo gold-nouveau crimson
+	import '@skeletonlabs/skeleton/themes/theme-vintage.css';
+	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.css';
-	import { Modal, Toast } from '@brainandbones/skeleton';
+
+	import { Modal, Toast } from '@skeletonlabs/skeleton';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Bars3 } from '@steeze-ui/heroicons';
+	import { Menu } from '@steeze-ui/remix-icons';
 
 	import { storeDrawer } from '$lib/stores';
 	import AppDraw from '$lib/components/AppDraw.svelte';
@@ -31,7 +33,7 @@
 				storeDrawer.set(true);
 			}}
 		>
-			<span><Icon src={Bars3} theme="solid" class="text-white" size="30" /> </span>
+			<span> <Icon src={Menu} theme="solid" class="text-white" size="25" /> </span>
 		</button>
 	{/if}
 

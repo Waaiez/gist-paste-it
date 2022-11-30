@@ -1,5 +1,5 @@
-import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 import type { LatestPastes } from './Types';
 
 export const load: PageServerLoad = async ({ fetch }) => {

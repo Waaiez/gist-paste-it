@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 </script>
 
-<!-- TODO: Add nav bar for easier navigation -->
 <div class="flex min-h-screen items-center justify-center py-48">
 	<div class="flex flex-col">
 		<div class="flex flex-col items-center">

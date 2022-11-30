@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const { cursor } = Object.fromEntries(url.searchParams);
+	const { cursor } = Object.fromEntries(url.searchParams) || null;
 	const cursorObj = cursor ? { id: cursor } : undefined;
 
 	const limit = 18;
@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			skip: cursor ? 1 : 0,
 			cursor: cursorObj,
 			where: {
-				isPrivate: false
+				visibility: 'public'
 			},
 			select: {
 				id: true,

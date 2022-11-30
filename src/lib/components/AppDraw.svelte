@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { storeDrawer } from '$lib/stores';
-	import { Drawer, Divider } from '@brainandbones/skeleton';
+	import { Drawer, Divider } from '@skeletonlabs/skeleton';
 
 	import { page } from '$app/stores';
+
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { Github } from '@steeze-ui/remix-icons';
 
 	function onListItemClick(): void {
 		storeDrawer.set(false);
@@ -34,6 +37,19 @@
 					{/each}
 				</ul>
 			</nav>
+
+			<ul>
+				<li>
+					<a
+						href="https://github.com/Waaiez/pasterr"
+						target="_blank"
+						rel="noreferrer"
+						class="btn hover:btn-filled-primary w-full"
+					>
+						<Icon src={Github} theme="solid" class="text-white" size="25" />
+					</a>
+				</li>
+			</ul>
 		</section>
 	</div>
 </Drawer>

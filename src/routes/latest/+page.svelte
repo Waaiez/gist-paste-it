@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Divider } from '@brainandbones/skeleton';
+	import { Divider } from '@skeletonlabs/skeleton';
 	import { inview } from 'svelte-inview';
 	import SkeletonCard from './SkeletonCard.svelte';
-	import autoAnimate from '$lib/autoAnimate';
 	import type { LatestPastes } from './Types';
+	import autoAnimate from '$lib/autoAnimate';
 
 	export let data: PageData;
 	let { pastes, nextId } = data;
@@ -84,8 +84,8 @@
 
 	<ul
 		class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 grow pb-5"
-		use:autoAnimate
 		data-sveltekit-prefetch="off"
+		use:autoAnimate
 	>
 		{#each pastes as paste}
 			<a href="/view/{paste.slug}" class="!text-inherit !no-underline">

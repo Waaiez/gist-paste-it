@@ -10,10 +10,10 @@
 		type ToastSettings,
 		type ModalSettings,
 		modalStore
-	} from '@brainandbones/skeleton';
+	} from '@skeletonlabs/skeleton';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { ChevronUp } from '@steeze-ui/heroicons';
+	import { ArrowUpS } from '@steeze-ui/remix-icons';
 
 	import hljs from 'highlight.js';
 	import hljs_svelte from 'highlightjs-svelte';
@@ -53,7 +53,8 @@
 
 	const showTitleModal: ModalSettings = {
 		type: 'alert',
-		body: data.paste.title
+		body: data.paste.title,
+		classes: 'text-center text-2xl'
 	};
 </script>
 
@@ -123,7 +124,7 @@
 				class="btn-filled-accent btn text-white mx-2 h-full"
 				use:menu={{ menu: 'paste-options' }}
 			>
-				<Icon src={ChevronUp} theme="solid" class="text-white" size="25" />
+				<Icon src={ArrowUpS} theme="solid" class="text-white" size="30" />
 			</button>
 			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="paste-options">
 				<ul data-sveltekit-prefetch="off">

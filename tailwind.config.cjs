@@ -4,13 +4,13 @@ module.exports = {
 	darkMode: 'class',
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
-		require('path').join(require.resolve('@brainandbones/skeleton'), '../**/*.{html,js,svelte,ts}')
+		require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
 		extend: {
 			fontFamily: {
 				sans: ['Poppins', ...defaultTheme.fontFamily.sans],
-				mono: ['Fira Mono', 'monospace']
+				mono: ['Fira Mono', ...defaultTheme.fontFamily.mono]
 			}
 		}
 	},
@@ -19,6 +19,6 @@ module.exports = {
 		require('tailwind-scrollbar'),
 		require('@tailwindcss/forms'),
 		require('@tailwindcss/typography'),
-		require('@brainandbones/skeleton/tailwind/theme.cjs')
+		require('@skeletonlabs/skeleton/tailwind/theme.cjs')
 	]
 };
