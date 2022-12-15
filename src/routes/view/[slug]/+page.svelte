@@ -127,7 +127,7 @@
 				<Icon src={ArrowUpS} theme="solid" class="text-white" size="30" />
 			</button>
 			<nav class="list-nav card p-4 w-64 shadow-xl" data-menu="paste-options">
-				<ul data-sveltekit-prefetch="off">
+				<ul>
 					<li>
 						<button
 							type="button"
@@ -149,14 +149,14 @@
 						<a
 							href="/new/{$page.params.slug}"
 							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
-							><span class="w-full px-1">Duplicate & Edit</span></a
+							data-sveltekit-preload-data="off"><span class="w-full px-1">Duplicate & Edit</span></a
 						>
 					</li>
 					<li>
 						<a
 							href="/view/{$page.params.slug}/raw"
 							class="btn text-white hover:bg-primary-500/10 w-full !text-left"
-							><span class="w-full px-1">Raw</span></a
+							data-sveltekit-preload-data="off"><span class="w-full px-1">Raw</span></a
 						>
 					</li>
 				</ul>

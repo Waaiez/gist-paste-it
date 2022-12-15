@@ -117,12 +117,12 @@
 				body: JSON.stringify(pasteData)
 			});
 
-			interface CreateResponseData {
+			type CreateResponseData = {
 				success: boolean;
 				message: string;
 				slug: string;
 				redirect: string;
-			}
+			};
 
 			const data: CreateResponseData = await response.json();
 
@@ -157,7 +157,7 @@
 					id="title"
 					name="title"
 					bind:this={title}
-					minlength="2"
+					minlength="1"
 					maxlength="255"
 					autocomplete="off"
 					required
@@ -188,8 +188,10 @@
 					name="content"
 					class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 min-h-full overflow-x-auto !whitespace-pre caret-white"
 					spellcheck="false"
+					minlength="1"
 					bind:this={textarea}
 					on:keydown={addTabs}
+					placeholder="Paste your text here..."
 				/>
 			</div>
 		</div>

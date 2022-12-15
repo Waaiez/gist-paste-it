@@ -1,6 +1,6 @@
 import prisma from '$lib/db';
-import { ImageResponse } from '@ethercorps/sveltekit-og';
 import type { Paste } from '@prisma/client';
+import { ImageResponse } from '@ethercorps/sveltekit-og';
 import type { RequestHandler } from './$types';
 
 const fontFile = await fetch('https://og-playground.vercel.app/inter-latin-ext-400-normal.woff');
@@ -41,7 +41,6 @@ function createOgTemplate(paste: Paste) {
   </div>`;
 }
 
-// @ts-ignore
 export const GET: RequestHandler = async ({ params }) => {
 	const { slug } = params;
 	try {
@@ -53,7 +52,7 @@ export const GET: RequestHandler = async ({ params }) => {
 
 		if (!paste) {
 			const errorTemplate = createErrorTemplate(slug);
-			return new ImageResponse(errorTemplate, {
+			return await ImageResponse(errorTemplate, {
 				height: 250,
 				width: 500,
 				fonts: [
@@ -67,7 +66,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		}
 
 		const ogTemplate = createOgTemplate(paste);
-		return new ImageResponse(ogTemplate, {
+		return await ImageResponse(ogTemplate, {
 			height: 250,
 			width: 500,
 			fonts: [
@@ -82,7 +81,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		console.log('Error generating OG Image, [api/pastes/og/[slug]]', e);
 
 		const errorTemplate = createErrorTemplate(slug);
-		return new ImageResponse(errorTemplate, {
+		return await ImageResponse(errorTemplate, {
 			height: 250,
 			width: 500,
 			fonts: [

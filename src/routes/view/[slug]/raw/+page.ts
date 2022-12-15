@@ -1,8 +1,8 @@
 import type { Paste } from '@prisma/client';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
 	const { slug } = params;
 
 	const response = await fetch(`/api/pastes/retrieve/${slug}`, {
@@ -18,10 +18,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	const { paste }: { paste: Paste } = await response.json();
 
-	const numberOfLines = paste.content.split('\n').length;
-
 	return {
-		paste,
-		numberOfLines
+		paste
 	};
 };

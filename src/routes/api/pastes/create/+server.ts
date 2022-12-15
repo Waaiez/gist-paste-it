@@ -1,13 +1,17 @@
-import languages from '$lib/components/LanguageSelection/languages.json';
-import prisma from '$lib/db';
-import { customAlphabet } from 'nanoid';
-import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
-import type { PasteSchema } from './Types';
+import { customAlphabet } from 'nanoid';
+
+import languages from '$lib/components/NewPasteForm/LanguageSelection/languages.json';
+import prisma from '$lib/db';
+
+import type { RequestHandler } from './$types';
+import type { PasteSchema } from './types';
+
 import { verifyInput } from './verifyInput';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const pasteData: PasteSchema = await request.json();
+
 	const { title, content, languageSelection, visibility } = pasteData;
 
 	const nanoid = customAlphabet(
@@ -22,7 +26,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	});
 
 	const testResults = await verifyInput(pasteData);
-	if (!testResults.success) {
+	if (!testResults.success)
 		return json(
 			{
 				success: false,
@@ -34,7 +38,6 @@ export const POST: RequestHandler = async ({ request }) => {
 				status: testResults.statusCode
 			}
 		);
-	}
 
 	try {
 		await prisma.paste.create({
@@ -59,13 +62,13 @@ export const POST: RequestHandler = async ({ request }) => {
 				status: 201
 			}
 		);
-	} catch (e) {
-		console.log('Error creating paste, [api/pastes/create]]', e);
+	} catch (error) {
+		console.log('Error creating paste, [api/pastes/create]]', error);
 
 		return json(
 			{
 				success: false,
-				message: 'Something went wrong, please try again later',
+				message: 'There was an error creating your paste, please try again later',
 				slug: '',
 				redirect: ''
 			},

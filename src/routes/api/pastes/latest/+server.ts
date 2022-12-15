@@ -1,19 +1,20 @@
-import prisma from '$lib/db';
 import { json } from '@sveltejs/kit';
+import prisma from '$lib/db';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const { cursor } = Object.fromEntries(url.searchParams) || null;
-	const cursorObj = cursor ? { id: cursor } : undefined;
+	const { cursor: cursorId } = Object.fromEntries(url.searchParams);
+	const cursor = cursorId ? { id: cursorId } : undefined;
 
 	const limit = 18;
 
 	try {
 		// @ts-ignore
+		//* typescript doesn't like that cursor can be undefined
 		const pastes = await prisma.paste.findMany({
 			take: limit,
-			skip: cursor ? 1 : 0,
-			cursor: cursorObj,
+			skip: cursorId ? 1 : 0,
+			cursor,
 			where: {
 				visibility: 'public'
 			},
@@ -34,13 +35,26 @@ export const GET: RequestHandler = async ({ url }) => {
 
 		const pastesWithoutId = pastes.map(({ id, ...keepAttrs }) => keepAttrs);
 
-		return json({ pastes: pastesWithoutId, nextId });
-	} catch (e) {
-		console.log('Error retrieving latest pastes, [api/pastes/retrieve/[slug]]', e);
+		return json(
+			{
+				success: true,
+				message: 'Latest pastes fetched successfully',
+				pastes: pastesWithoutId,
+				nextId
+			},
+			{ status: 200 }
+		);
+	} catch (error) {
+		console.log('Error retrieving latest pastes, [api/pastes/retrieve/[slug]]', error);
 
-		return new Response('There was an error retrieving data', {
-			status: 500,
-			statusText: 'There was an error retrieving data'
-		});
+		return json(
+			{
+				success: false,
+				message: 'There was an error fetching latest pastes',
+				pastes: [],
+				nextId: undefined
+			},
+			{ status: 500 }
+		);
 	}
 };

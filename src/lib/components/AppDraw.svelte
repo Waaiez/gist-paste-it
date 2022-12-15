@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { storeDrawer } from '$lib/stores';
-	import { Drawer, Divider } from '@skeletonlabs/skeleton';
+	// import { storeDrawer } from '$lib/stores';
+	import { Drawer, drawerStore, Divider, type DrawerSettings } from '@skeletonlabs/skeleton';
 
 	import { page } from '$app/stores';
 
@@ -8,7 +8,8 @@
 	import { Github } from '@steeze-ui/remix-icons';
 
 	function onListItemClick(): void {
-		storeDrawer.set(false);
+		// storeDrawer.set(false);
+		drawerStore.close();
 	}
 
 	$: classesActive = (href: string) => ($page.url.pathname === href ? '!bg-primary-500' : '');
@@ -20,7 +21,7 @@
 	];
 </script>
 
-<Drawer open={storeDrawer} position="left" width="w-64">
+<Drawer position="left" width="w-64">
 	<div class="h-full border-r border-black/5 dark:border-white/5 {$$props.class ?? ''}">
 		<section class="p-4 overflow-y-auto w-full h-full flex flex-col">
 			<span class="text-center justify-center flex text-3xl font-bold">Pasterr</span>
@@ -30,7 +31,7 @@
 				<ul class="w-full">
 					{#each menuNavLinks as { href, label }}
 						<li on:click={onListItemClick} on:keypress>
-							<a {href} value={href} class={classesActive(href)} data-sveltekit-prefetch>
+							<a {href} value={href} class={classesActive(href)} data-sveltekit-preload-data>
 								<span class="flex-auto text-xl">{label}</span>
 							</a>
 						</li>

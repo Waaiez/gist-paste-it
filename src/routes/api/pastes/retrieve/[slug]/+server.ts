@@ -20,29 +20,57 @@ export const GET: RequestHandler = async ({ params }) => {
 
 		const pasteWithoutId = { ...paste, id: '' };
 
-		return json({
-			paste: pasteWithoutId
-		});
+		return json(
+			{
+				success: true,
+				message: 'Paste fetched successfully',
+				paste: pasteWithoutId
+			},
+			{
+				status: 200
+			}
+		);
 	} catch (e) {
 		console.log('Error retrieving paste, [api/pastes/retrieve/[slug]]', e);
 
 		if (e instanceof Prisma.PrismaClientKnownRequestError) {
 			if (e.code === 'P2025') {
-				return new Response('Paste does not exist', {
-					status: 404,
-					statusText: 'Paste does not exist'
-				});
+				return json(
+					{
+						success: false,
+						message: 'Paste does not exist',
+						paste: null
+					},
+					{
+						status: 404,
+						statusText: 'Paste does not exist'
+					}
+				);
 			}
 
-			return new Response('There was an error retrieving data', {
-				status: 500,
-				statusText: 'There was an error retrieving data'
-			});
+			return json(
+				{
+					success: false,
+					message: 'There was an error retrieving data',
+					paste: null
+				},
+				{
+					status: 500,
+					statusText: 'There was an error retrieving data'
+				}
+			);
 		}
 
-		return new Response('There was an error retrieving data', {
-			status: 500,
-			statusText: 'Internal server error'
-		});
+		return json(
+			{
+				success: false,
+				message: 'Internal server error',
+				paste: null
+			},
+			{
+				status: 500,
+				statusText: 'Internal server error'
+			}
+		);
 	}
 };

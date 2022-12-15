@@ -9,8 +9,4 @@ declare namespace App {
 		message: string;
 		stack?: unknown;
 	}
-
-	interface RequestHandler extends SvelteKit.RequestHandler {
-		ImageResponse: import('@ethercorps/sveltekit-og').ImageResponse;
-	}
 }

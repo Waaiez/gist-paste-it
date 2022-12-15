@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { PasteSchema } from './Types';
+import { PasteSchema } from './types';
 
 async function createErrorMessage(
 	statusCode: number,
-	errorType: 'input' | 'selection' | 'unknown' | 'generic',
-	errorCause: string
+	errorType: 'input' | 'selection' | 'generic' = 'generic',
+	errorCause: string = ''
 ) {
 	let message = 'Internal Server Error';
 
@@ -12,8 +12,6 @@ async function createErrorMessage(
 		message = `${errorCause} is invalid, please check the length and try again`;
 	} else if (errorType === 'selection') {
 		message = `${errorCause} is invalid, please check your selection and try again`;
-	} else if (errorType === 'unknown') {
-		message = errorCause;
 	}
 
 	return {
@@ -24,12 +22,7 @@ async function createErrorMessage(
 }
 
 export const verifyInput = async (inputData: PasteSchema) => {
-	const { title, content } = inputData;
-
 	try {
-		if (!title) throw new Error('Title is required');
-		if (!content) throw new Error('Content is required');
-
 		PasteSchema.parse(inputData);
 
 		return {
@@ -38,6 +31,8 @@ export const verifyInput = async (inputData: PasteSchema) => {
 			message: 'Success'
 		};
 	} catch (error) {
+		console.error('Error verifying input, [api/pastes/create]', error);
+
 		if (error instanceof z.ZodError) {
 			const flattenedErrors = error.flatten().fieldErrors;
 
@@ -51,12 +46,9 @@ export const verifyInput = async (inputData: PasteSchema) => {
 			if (flattenedErrors.visibility)
 				return await createErrorMessage(422, 'selection', 'Visibility');
 
-			return await createErrorMessage(500, 'generic', '');
+			return await createErrorMessage(500);
 		}
 
-		//! TODO: Probably not the best idea to return an error message like this as I don't know whether it contains sensitive information or not
-		if (error instanceof Error) return await createErrorMessage(422, 'unknown', error.message);
-
-		return await createErrorMessage(500, 'generic', '');
+		return await createErrorMessage(500);
 	}
 };

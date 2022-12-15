@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import languages from '$lib/components/LanguageSelection/languages.json';
+import languages from '$lib/components/NewPasteForm/LanguageSelection/languages.json';
 
 export type LanguageName = typeof languages[number]['name'];
 
