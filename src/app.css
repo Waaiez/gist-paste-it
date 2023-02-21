@@ -1,1 +1,3 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Poppins&display=swap');
+
+html, body { @apply h-full overflow-hidden; }
