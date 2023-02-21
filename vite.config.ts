@@ -7,7 +7,7 @@ const config: UserConfig = {
 		_a: 'undefined'
 	},
 	optimizeDeps: {
-		include: ['highlight.js', 'highlight.js/lib/core', 'sveltekit-og']
+		include: ['highlight.js', 'highlight.js/lib/core']
 	}
 };
 

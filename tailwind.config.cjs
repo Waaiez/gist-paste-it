@@ -19,6 +19,6 @@ module.exports = {
 		require('tailwind-scrollbar'),
 		require('@tailwindcss/forms'),
 		require('@tailwindcss/typography'),
-		require('@skeletonlabs/skeleton/tailwind/theme.cjs')
+		...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()
 	]
 };
