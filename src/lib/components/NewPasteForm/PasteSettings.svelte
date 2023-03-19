@@ -1,28 +1,39 @@
 <script lang="ts">
-	import { modalStore, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 	import { storePasteVisibility } from '$lib/stores';
+	import { modalStore, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
+
+	let visibility = $storePasteVisibility;
 
 	function onFormSubmit(): void {
-		let pasteSettings = {
-			visibility: $storePasteVisibility
-		};
-		$modalStore[0].response(pasteSettings);
+		storePasteVisibility.set(visibility);
+
 		modalStore.close();
 	}
-
-	const boxSettings = 'flex flex-col space-y-2';
 </script>
 
-<div class="space-y-5">
-	<div class={boxSettings}>
-		<span class="text-xl">Visibility</span>
-		<RadioGroup selected={storePasteVisibility}>
-			<RadioItem value="public">Public</RadioItem>
-			<RadioItem value="private">Private</RadioItem>
+<div class="card w-modal space-y-5 p-4 shadow-xl">
+	<div class="flex flex-col space-y-2">
+		<span class="text-center text-2xl font-bold md:text-left">Visibility</span>
+
+		<RadioGroup display="flex flex-col md:flex-row space-y-2 md:space-y-0">
+			<RadioItem
+				bind:group={visibility}
+				name="pasteVisibility"
+				value="public"
+				active="variant-filled-primary"
+				hover="hover:variant-soft-primary">Public</RadioItem
+			>
+			<RadioItem
+				bind:group={visibility}
+				name="pasteVisibility"
+				value="private"
+				active="variant-filled-primary"
+				hover="hover:variant-soft-primary">Private</RadioItem
+			>
 		</RadioGroup>
 	</div>
 
-	<footer class="flex justify-end space-x-2'">
-		<button class="btn btn-filled-primary" on:click={onFormSubmit}>Save</button>
+	<footer class="space-x-2' flex justify-end">
+		<button class="btn variant-filled-primary" on:click={onFormSubmit}>Save</button>
 	</footer>
 </div>

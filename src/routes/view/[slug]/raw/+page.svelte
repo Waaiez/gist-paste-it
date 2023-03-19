@@ -9,6 +9,6 @@
 	const cleanPasteContent = (0, eval)('(' + cleanedValue + ')');
 </script>
 
-<pre class="!rounded-none !bg-transparent !p-0 !m-0 !left-0 !top-0 flex">
+<pre class="!left-0 !top-0 !m-0 flex !rounded-none !bg-transparent !p-0">
 	{cleanPasteContent.trim()}
 </pre>

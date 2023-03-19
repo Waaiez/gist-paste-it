@@ -1,27 +1,27 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
+	import { Add, Eye, EyeOff, Loader, Settings2 } from '@steeze-ui/remix-icons';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Add, Loader, Settings2 } from '@steeze-ui/remix-icons';
 
 	import { uneval } from 'devalue';
 
 	import {
 		focusTrap,
 		modalStore,
+		popup,
 		toastStore,
-		tooltip,
 		type ModalComponent,
 		type ModalSettings,
+		type PopupSettings,
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
-	import PasteSettings from './PasteSettings.svelte';
 	import LanguageSelectionInput from './LanguageSelection/LanguageSelectionInput.svelte';
+	import PasteSettings from './PasteSettings.svelte';
 
-	import { storePasteVisibility } from '$lib/stores';
 	import { goto } from '$app/navigation';
+	import { storePasteVisibility } from '$lib/stores';
 
 	interface ExistingPasteData {
 		paste: {
@@ -40,6 +40,38 @@
 	let isAbleToSubmit = false;
 	let isSubmitting = false;
 
+	let newFormToolTip: PopupSettings = {
+		event: 'hover',
+		target: 'newFormToolTip'
+	};
+
+	function newForm() {
+		textarea.value = '';
+		title.value = '';
+		isAbleToSubmit = false;
+	}
+
+	function openPasteSettings() {
+		interface PasteSettingsResponse {
+			visibility: string;
+		}
+
+		const modalComponent: ModalComponent = {
+			ref: PasteSettings
+		};
+
+		const modalSettings: ModalSettings = {
+			type: 'component',
+			component: modalComponent,
+			title: 'Paste Settings',
+			response: (response: PasteSettingsResponse) => {
+				if (response) console.log('response:', response);
+			}
+		};
+
+		modalStore.trigger(modalSettings);
+	}
+
 	function addTabs(event: KeyboardEvent) {
 		if (event.key === 'Tab') {
 			const start = textarea.selectionStart;
@@ -49,12 +81,6 @@
 
 			event.preventDefault();
 		}
-	}
-
-	function clearForm() {
-		textarea.value = '';
-		title.value = '';
-		isAbleToSubmit = false;
 	}
 
 	onMount(() => {
@@ -79,27 +105,6 @@
 			});
 		});
 	});
-
-	function openPasteSettings() {
-		interface PasteSettings {
-			visibility: string;
-		}
-
-		const modalComponent: ModalComponent = {
-			ref: PasteSettings
-		};
-
-		const modalSettings: ModalSettings = {
-			type: 'component',
-			title: 'Paste Settings',
-			component: modalComponent,
-			response: (response: PasteSettings) => {
-				if (response) console.log('response:', response);
-			}
-		};
-
-		modalStore.trigger(modalSettings);
-	}
 
 	async function onSubmit(e: SubmitEvent) {
 		try {
@@ -132,7 +137,7 @@
 			} else {
 				const toastMessage: ToastSettings = {
 					message: data.message,
-					classes: 'bg-warning-500'
+					background: 'variant-filled-error'
 				};
 				toastStore.trigger(toastMessage);
 				isSubmitting = false;
@@ -140,85 +145,114 @@
 		} catch (e) {
 			const toastMessage: ToastSettings = {
 				message: 'Something went wrong trying to create your paste, please try again later',
-				classes: 'bg-warning-500'
+				background: 'variant-filled-error'
 			};
 			toastStore.trigger(toastMessage);
 			isSubmitting = false;
 		}
 	}
+
+	let pasteVisibillityPopup: PopupSettings = {
+		event: 'hover',
+		target: 'pasteVisibillityPopup'
+	};
 </script>
 
-<form on:submit|preventDefault={onSubmit} class="h-full">
-	<div class="h-full w-full flex flex-col py-2" use:focusTrap={true}>
-		<div class="w-full flex justify-center px-10">
-			<label for="title" class="w-full flex justify-center">
-				<input
-					type="text"
-					id="title"
-					name="title"
-					bind:this={title}
-					minlength="1"
-					maxlength="255"
-					autocomplete="off"
-					required
-					placeholder="Enter a title"
-					class="rounded-lg w-full max-w-md text-lg caret-white"
-				/>
-			</label>
-		</div>
+<form
+	on:submit|preventDefault={onSubmit}
+	class="flex h-full w-full flex-col py-2"
+	use:focusTrap={true}
+>
+	<label for="title" class="label flex w-full justify-end pl-10 pr-2 md:justify-center">
+		<input
+			type="text"
+			id="title"
+			name="title"
+			bind:this={title}
+			minlength="1"
+			maxlength="255"
+			autocomplete="off"
+			required
+			placeholder="Enter a title"
+			class="input w-full max-w-md rounded-lg text-lg"
+		/>
+	</label>
 
-		<div class="mb-2 w-full rounded-lg md:px-10 h-full flex flex-col">
-			<div class="flex justify-between items-center py-2 px-3 border-b border-gray-500">
-				<div class="flex flex-wrap items-center">
-					<div class="flex items-center space-x-1 sm:pr-4">
-						<LanguageSelectionInput />
-					</div>
+	<div class="flex h-full w-full flex-col rounded-lg md:px-10">
+		<div class="flex items-center justify-between border-b border-gray-500 py-2 px-4">
+			<div class="flex flex-wrap items-center">
+				<div class="flex items-center space-x-1 sm:pr-4">
+					<LanguageSelectionInput />
 				</div>
+				<div use:popup={pasteVisibillityPopup}>
+					{#if $storePasteVisibility === 'private'}
+						<Icon src={EyeOff} class="text-white" size="25" />
+					{:else if $storePasteVisibility === 'public'}
+						<Icon src={Eye} class="text-white" size="25" />
+					{/if}
+				</div>
+				<div
+					class="card variant-filled-secondary whitespace-nowrap p-2 text-center text-xs shadow-xl"
+					data-popup="pasteVisibillityPopup"
+				>
+					Paste will be {$storePasteVisibility}
+					<div class="arrow variant-filled-secondary" />
+				</div>
+			</div>
 
-				<button type="button" class="btn mx-2 h-full" on:click={openPasteSettings}>
+			<div class="btn-icon">
+				<button type="button" class=" -mr-5 h-full" on:click={openPasteSettings}>
 					<Icon src={Settings2} class="text-white" size="25" />
 				</button>
 			</div>
 
-			<div class="flex flex-grow items-center py-2 px-3 rounded-lg font-mono">
-				<div class="h-full top-5 left-0 w-8 text-right select-none float-left">&gt;</div>
-
-				<textarea
-					id="content"
-					name="content"
-					class="!bg-transparent border-0 outline-none resize-none focus:ring-0 text-lg !leading-normal -my-10 !py-0 !px-4 min-h-full overflow-x-auto !whitespace-pre caret-white"
-					spellcheck="false"
-					minlength="1"
-					bind:this={textarea}
-					on:keydown={addTabs}
-					placeholder="Paste your text here..."
-				/>
-			</div>
+			<input type="hidden" id="visibility" name="visibility" value={$storePasteVisibility} />
 		</div>
 
-		<input type="hidden" id="visibility" name="visibility" value={$storePasteVisibility} />
+		<div class="flex flex-grow items-center rounded-lg py-2 font-mono">
+			<div class="top-5 left-0 float-left h-full w-8 select-none text-center">&gt;</div>
 
-		<div class="w-full h-14 flex justify-center px-10">
-			<button
-				type="submit"
-				class="w-full max-w-xs btn-filled-primary btn  text-white !text-xl mx-2 !py-4"
-				disabled={!isAbleToSubmit || isSubmitting}
-				on:click={() => dispatch('submit')}
-			>
-				{#if isSubmitting}
-					<Icon src={Loader} class="animate-spin text-white" size="24" />
-				{:else}
-					<span> Create </span>
-				{/if}
-			</button>
-			<button
-				type="button"
-				class="btn btn-filled-accent mx-2 h-full"
-				on:click={clearForm}
-				use:tooltip={{ content: 'Clear Form', background: '!bg-accent-500' }}
-			>
-				<Icon src={Add} theme="solid" class="text-white" size="25" />
-			</button>
+			<textarea
+				id="content"
+				name="content"
+				class="textarea -my-10 min-h-full resize-none overflow-x-auto !whitespace-pre border-0 !bg-transparent !py-0 !px-4 text-lg !leading-normal outline-none focus:ring-0"
+				spellcheck="false"
+				minlength="1"
+				bind:this={textarea}
+				on:keydown={addTabs}
+				placeholder="Paste your text here..."
+			/>
+		</div>
+	</div>
+
+	<div class="flex h-14 w-full justify-center px-10">
+		<button
+			type="submit"
+			class="btn variant-filled-primary mx-2 w-full max-w-xs !py-4 !text-xl text-white"
+			disabled={!isAbleToSubmit || isSubmitting}
+			on:click={() => dispatch('submit')}
+		>
+			{#if isSubmitting}
+				<Icon src={Loader} class="animate-spin text-white" size="24" />
+			{:else}
+				<span> Create </span>
+			{/if}
+		</button>
+
+		<button
+			type="button"
+			class="btn variant-filled-secondary mx-2 h-full"
+			on:click={newForm}
+			use:popup={newFormToolTip}
+		>
+			<Icon src={Add} theme="solid" class="" size="25" />
+		</button>
+		<div
+			class="card variant-filled-secondary whitespace-nowrap p-2 text-center text-xs shadow-xl"
+			data-popup="newFormToolTip"
+		>
+			New Form
+			<div class="arrow variant-filled-secondary" />
 		</div>
 	</div>
 </form>

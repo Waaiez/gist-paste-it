@@ -1,3 +1,3 @@
-<div class="h-full w-full flex flex-col py-5 justify-center items-center">
+<div class="flex h-full w-full flex-col items-center justify-center py-5">
 	File Upload Coming Soon
 </div>

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Divider, toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import { inview } from 'svelte-inview';
-	import SkeletonCard from './SkeletonCard.svelte';
 	import autoAnimate from '$lib/autoAnimate';
-	import { formatTimeAgo } from './formatTime';
+	import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { inview } from 'svelte-inview';
+	import { formatTimeAgo } from './formatTime';
+	import SkeletonCard from './SkeletonCard.svelte';
 
 	let loading = true;
 
@@ -86,21 +86,20 @@
 	$: pastes = [...pastes, ...newPastes];
 </script>
 
-<div class="max-w-7xl mx-auto px-10 py-5 h-full flex flex-col">
-	<div class="px-10 w-full flex flex-col justify-center mt-5 mb-10">
-		<span class="text-4xl text-center p-1 line-clamp-1 md:line-clamp-3 lg:line-clamp-none"
+<div class="mx-auto flex h-full max-w-7xl flex-col px-10 py-5">
+	<div class="mt-5 mb-10 flex w-full flex-col justify-center px-10">
+		<span class="p-1 text-center text-4xl line-clamp-1 md:line-clamp-3 lg:line-clamp-none"
 			>Latest Pastes</span
 		>
-		<Divider />
 	</div>
 	{#if pastes.length === 0 && !loading}
-		<div class="flex flex-col justify-center items-center w-full h-full">
-			<span class="text-2xl text-center p-1 line-clamp-1 md:line-clamp-3 lg:line-clamp-none"
+		<div class="flex h-full w-full flex-col items-center justify-center">
+			<span class="p-1 text-center text-2xl line-clamp-1 md:line-clamp-3 lg:line-clamp-none"
 				>No pastes found</span
 			>
 		</div>
 	{:else}
-		<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 grow pb-5" use:autoAnimate>
+		<ul class="grid grow grid-cols-1 gap-6 pb-5 sm:grid-cols-2 lg:grid-cols-3" use:autoAnimate>
 			{#each pastes as paste}
 				<a
 					href="/view/{paste.slug}"
@@ -108,13 +107,12 @@
 					data-sveltekit-preload-data="off"
 				>
 					<div
-						class="card flex flex-col justify-between shadow-md hover:bg-accent-100 dark:hover:bg-accent-500 transition ease-in-out duration-300 space-y-8"
+						class="hover:bg-accent-100 dark:hover:bg-accent-500 card flex flex-col justify-between space-y-8 shadow-md transition duration-300 ease-in-out"
 					>
 						<div>
-							<header class="card-header line-clamp-1 text-center text-xl">
+							<header class="card-header text-center text-xl line-clamp-1">
 								{paste.title}
 							</header>
-							<Divider />
 						</div>
 						<div class="card-body text-center">
 							Language: {paste.language} <br />
@@ -138,7 +136,7 @@
 				{/each}
 			{/if}
 
-			<div use:inview on:enter={loadMore} />
+			<div use:inview on:inview_enter={loadMore} />
 		</ul>
 	{/if}
 </div>

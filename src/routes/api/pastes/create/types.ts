@@ -1,7 +1,7 @@
-import { z } from 'zod';
 import languages from '$lib/components/NewPasteForm/LanguageSelection/languages.json';
+import { z } from 'zod';
 
-export type LanguageName = typeof languages[number]['name'];
+export type LanguageName = (typeof languages)[number]['name'];
 
 const LanguageNameValues: [LanguageName, ...LanguageName[]] = [
 	languages[0]!.name,

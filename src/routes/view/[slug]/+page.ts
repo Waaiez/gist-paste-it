@@ -2,7 +2,7 @@ import type { Paste } from '@prisma/client';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({ params, fetch }) => {
+export const load = (async ({ params, fetch }) => {
 	const { slug } = params;
 
 	const response = await fetch(`/api/pastes/retrieve/${slug}`, {
@@ -24,4 +24,4 @@ export const load: PageLoad = async ({ params, fetch }) => {
 		paste,
 		numberOfLines
 	};
-};
+}) satisfies PageLoad;

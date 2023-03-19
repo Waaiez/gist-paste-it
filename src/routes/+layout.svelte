@@ -1,17 +1,28 @@
 <script lang="ts">
 	// theme names: skeleton rocket vintage modern sahara seafoam hamlindigo gold-nouveau crimson
-	import '@skeletonlabs/skeleton/themes/theme-vintage.css';
 	import '@skeletonlabs/skeleton/styles/all.css';
+	import '@skeletonlabs/skeleton/themes/theme-vintage.css';
 	import '../app.css';
 
-	import { Modal, Toast, AppShell, drawerStore, ProgressRadial } from '@skeletonlabs/skeleton';
+	import {
+		AppShell,
+		drawerStore,
+		Modal,
+		ProgressRadial,
+		storePopup,
+		Toast
+	} from '@skeletonlabs/skeleton';
 
-	import { Icon } from '@steeze-ui/svelte-icon';
+	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
+
 	import { Menu } from '@steeze-ui/remix-icons';
+	import { Icon } from '@steeze-ui/svelte-icon';
 
 	import AppDraw from '$lib/components/AppDraw.svelte';
 
-	import { page, navigating } from '$app/stores';
+	import { navigating, page } from '$app/stores';
+
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
 <svelte:head>
@@ -24,7 +35,6 @@
 
 <AppDraw />
 
-<!-- <main class="h-screen scrollbar-thin relative"></main> -->
 <AppShell>
 	{#if !$page.url.pathname.includes('raw')}
 		<button
@@ -38,8 +48,8 @@
 		</button>
 	{/if}
 	{#if $navigating}
-		<!-- TODO maybe implement skeleton loading animation -->
-		<div class="h-full w-full flex flex-col py-5 justify-center items-center">
+		<!-- TODO: maybe implement skeleton loading animation -->
+		<div class="flex h-full w-full flex-col items-center justify-center py-5">
 			<div class="h-16 w-16">
 				<ProgressRadial stroke={90} />
 			</div>
