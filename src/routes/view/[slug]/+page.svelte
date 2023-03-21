@@ -119,14 +119,14 @@
 
 	<!-- Action Buttons -->
 	<div class="my-2 flex h-14 w-full justify-center px-10">
-		<a href="/" class="btn-filled-primary btn mx-2 w-full max-w-xs !text-xl text-white"
+		<a href="/" class="btn variant-filled-primary mx-2 w-full max-w-xs !text-xl text-white"
 			><span class="w-full">New</span></a
 		>
 
 		<div class="relative">
 			<button
 				type="button"
-				class="btn-filled-accent btn mx-2 h-full text-white"
+				class="btn variant-filled-secondary mx-2 h-full text-white"
 				use:popup={pasteOptionsSettings}
 			>
 				<Icon src={ArrowUpS} theme="solid" class="text-white" size="30" />
